@@ -1,13 +1,11 @@
 #!/bin/bash
 
-# Only wait for PostgreSQL if we're in Docker Compose environment
-if [ "$DOCKER_COMPOSE" = "true" ]; then
-    echo "Waiting for PostgreSQL..."
-    while ! nc -z $DB_HOST $DB_PORT; do
-        sleep 0.1
-    done
-    echo "PostgreSQL started"
-fi
+# Wait for PostgreSQL to be ready
+echo "Waiting for PostgreSQL..."
+while ! nc -z $DB_HOST $DB_PORT; do
+  sleep 0.1
+done
+echo "PostgreSQL started"
 
 # Apply database migrations
 echo "Applying database migrations..."

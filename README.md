@@ -10,7 +10,7 @@ A REST API service for an Anime Recommendation System that uses the AniList Grap
 - **User Preference Management**: Track favorite genres and watched anime
 - **Rating System**: Rate and review watched anime
 - **Bulk Operations**: Support for bulk creation of anime preferences
-- **Swagger Documentation**: Interactive API documentation at `http://localhost:8000/`
+- **Swagger Documentation**: Interactive API documentation at `http://13.202.72.59:8000/`
 - **Docker Support**: Easy deployment with Docker and Docker Compose
 
 ### ⚡ Performance Optimizations
@@ -51,6 +51,18 @@ A REST API service for an Anime Recommendation System that uses the AniList Grap
   - Horizontal scaling support
   - Async operations with Gunicorn
   - Database connection pooling
+
+## Production Deployment
+
+The application is currently deployed on AWS EC2. You can access the production environment at the following endpoints:
+
+### Production Endpoints
+- **Frontend Application**: http://13.202.72.59:3000/login
+- **Backend API & Swagger Documentation**: http://13.202.72.59:8000/
+
+### Development Endpoints (Local)
+- Frontend: http://localhost:3000
+- Backend: http://localhost:8000
 
 ## Setup Instructions
 

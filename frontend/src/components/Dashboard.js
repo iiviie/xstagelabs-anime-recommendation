@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import axios from '../config/axios';
 import {
   Container,
   Grid,
@@ -48,7 +48,7 @@ function Dashboard() {
 
   const fetchUserPreferences = async () => {
     try {
-      const response = await axios.get('/api/user/preferences/', {
+      const response = await axios.get('/user/preferences/', {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       setUserPreferences(response.data);
@@ -60,7 +60,7 @@ function Dashboard() {
 
   const fetchAvailableGenres = async () => {
     try {
-      const response = await axios.get('/api/anime/genres/', {
+      const response = await axios.get('/anime/genres/', {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       setAvailableGenres(response.data.map(genre => genre.name));
@@ -71,7 +71,7 @@ function Dashboard() {
 
   const fetchRecommendations = async () => {
     try {
-      const response = await axios.get('/api/anime/recommendations/', {
+      const response = await axios.get('/anime/recommendations/', {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       setRecommendations(response.data);
@@ -82,7 +82,7 @@ function Dashboard() {
 
   const handleSearch = async () => {
     try {
-      const response = await axios.get(`/api/anime/search/?q=${searchQuery}`, {
+      const response = await axios.get(`/anime/search/?q=${searchQuery}`, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       setSearchResults(response.data.results || []);
@@ -108,7 +108,7 @@ function Dashboard() {
         }
       }
 
-      await axios.put('/api/user/preferences/', preferencesData, {
+      await axios.put('/user/preferences/', preferencesData, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       setSuccessMessage('Preferences updated successfully!');
@@ -123,7 +123,7 @@ function Dashboard() {
 
   const handleRating = async (animeId, rating) => {
     try {
-      await axios.post('/api/preferences/', {
+      await axios.post('/preferences/', {
         anime_id: animeId,
         rating: rating
       }, {
@@ -240,7 +240,13 @@ function Dashboard() {
             />
             <Typography variant="caption" display="block" gutterBottom sx={{ mb: 2 }}>
               Example format:
-              <pre style={{ background: '#f5f5f5', padding: '8px', borderRadius: '4px' }}>
+              <pre style={{ 
+                background: '#2b2b2b', 
+                padding: '8px', 
+                borderRadius: '4px',
+                color: '#e0e0e0',
+                border: '1px solid #404040'
+              }}>
 {`{
   "favorite_genres": ["Action", "Comedy"],
   "watched_anime": []

@@ -264,3 +264,32 @@ class AnimeRecommendationsView(APIView):
                 {'error': 'Failed to fetch recommendations. Please try again later.'}, 
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+
+class AnimeGenresView(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    @swagger_auto_schema(
+        operation_description="Get a list of all available anime genres",
+        responses={200: GenreSerializer(many=True)}
+    )
+    def get(self, request):
+        try:
+            # First try to get genres from the database
+            genres = Genre.objects.all()
+            
+            # If no genres in database, fetch from AniList API
+            if not genres.exists():
+                genre_names = AniListAPI.get_genre_list()
+                for genre_name in genre_names:
+                    Genre.objects.get_or_create(name=genre_name)
+                genres = Genre.objects.all()
+            
+            serializer = GenreSerializer(genres, many=True)
+            return Response(serializer.data)
+            
+        except Exception as e:
+            logger.error(f"Error fetching genres: {str(e)}", exc_info=True)
+            return Response(
+                {'error': 'Failed to fetch genres. Please try again later.'}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
